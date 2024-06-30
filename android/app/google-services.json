@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "510674458552",
+    "project_id": "mynewone-1da33",
+    "storage_bucket": "mynewone-1da33.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510674458552:android:df766cf2c0fe19445e214d",
+        "android_client_info": {
+          "package_name": "com.example.firetest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpLkDjotz_xF7DuorIcX3aKf-LIixOhGU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
