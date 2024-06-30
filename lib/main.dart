@@ -118,7 +118,7 @@ and then we have the navigate to sign-in page
  if the user signed in before we have no navigate to home not sign-in
  if the currentUser == null that means the user is not signed in
  home: FirebaseAuth.instance.currentUser == null ? Login() : Homepage(),
----------------------------------------authStateChanges----------------------------------
+---------------------------------------authStateChanges (Not important)----------------------------------
  Checking if the user is signed in
  initState
   void initState() {
