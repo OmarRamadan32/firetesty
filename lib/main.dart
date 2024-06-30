@@ -22,6 +22,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
+
   // Checking if the user is signed in
   void initState() {
     FirebaseAuth.instance
@@ -29,12 +30,15 @@ class _MyAppState extends State<MyApp> {
   .listen((User? user) {
     if (user == null) {
       print('User is currently signed out!');
+      // code if the user is not signed in
     } else {
       print('User is signed in!');
+      // code if the user is not signed in
     }
   });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -114,4 +118,23 @@ and then we have the navigate to sign-in page
  if the user signed in before we have no navigate to home not sign-in
  if the currentUser == null that means the user is not signed in
  home: FirebaseAuth.instance.currentUser == null ? Login() : Homepage(),
+---------------------------------------authStateChanges----------------------------------
+ Checking if the user is signed in
+ initState
+  void initState() {
+    FirebaseAuth.instance
+  .authStateChanges()
+  .listen((User? user) {
+    if (user == null) {
+      print('User is currently signed out!');
+      // code if the user is not signed in
+    } else {
+      print('User is signed in!');
+      // code if the user is not signed in
+    }
+  });
+
+    super.initState();
+  }
+
 */
