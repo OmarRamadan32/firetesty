@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firetest/components/custombuttonauth.dart';
 import 'package:firetest/components/customlogoauth.dart';
 import 'package:firetest/components/textformfield.dart';
@@ -13,6 +14,29 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+// ---------------------------------------to be an image
+  SignIn() async {
+    try {
+  final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+    email: email.text,
+    password: password.text
+  );
+  // Code if the Signin is successful
+  Navigator.of(context).pushReplacementNamed("homepage");
+
+}
+// checking if there any errors 
+ on FirebaseAuthException catch (e) {
+  // if the user not found
+  if (e.code == 'user-not-found') {
+    print('No user found for that email.');
+    // if the password is wrong
+  } else if (e.code == 'wrong-password') {
+    print('Wrong password provided for that user.');
+  }
+}
+  }
+// ---------------------------------------to be an image
 
   @override
   Widget build(BuildContext context) {

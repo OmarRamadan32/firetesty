@@ -26,14 +26,17 @@ class _SignUpState extends State<SignUp> {
     email: email.text,
     password: password.text,
   );
+  Navigator.of(context).pushReplacementNamed("homepage");
   // Code if the Signin is successful
   
   
 }
 // checking if there any errors 
 on FirebaseAuthException catch (e) {
+  // if the password is too weak
   if (e.code == 'weak-password') {
     print('The password provided is too weak.');
+    // if the email is already in use
   } else if (e.code == 'email-already-in-use') {
     print('The account already exists for that email.');
   }
