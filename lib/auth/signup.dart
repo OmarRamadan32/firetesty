@@ -1,4 +1,5 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firetest/components/custombuttonauth.dart';
 import 'package:firetest/components/customlogoauth.dart';
 import 'package:firetest/components/textformfield.dart';
@@ -15,7 +16,32 @@ class _SignUpState extends State<SignUp> {
   TextEditingController username = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
-
+// -----------------------------------------------to be an image
+  // Create a user using FirebaseAuth
+  CreateAccount()async {
+    try {
+      // Create an instants from FirebaseAuth
+  final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+    // Pass the email and password Controller
+    email: email.text,
+    password: password.text,
+  );
+  // Code if the Signin is successful
+  
+  
+}
+// checking if there any errors 
+on FirebaseAuthException catch (e) {
+  if (e.code == 'weak-password') {
+    print('The password provided is too weak.');
+  } else if (e.code == 'email-already-in-use') {
+    print('The account already exists for that email.');
+  }
+} catch (e) {
+  print(e);
+}
+  }
+// -------------------------------------------------to be an image
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +82,7 @@ class _SignUpState extends State<SignUp> {
               ),
               Container(height: 10),
               CustomTextForm(
-                  hinttext: "ُEnter Your Password", mycontroller: email),
+                  hinttext: "ُEnter Your Password", mycontroller: password),
               Container(
                 margin: const EdgeInsets.only(top: 10, bottom: 20),
                 alignment: Alignment.topRight,
@@ -69,14 +95,16 @@ class _SignUpState extends State<SignUp> {
               ),
             ],
           ),
-          CustomButtonAuth(title: "SignUp", onPressed: () {}),
+          CustomButtonAuth(title: "SignUp", onPressed: () {
+                     CreateAccount();
+          }),
           Container(height: 20),
 
           Container(height: 20),
           // Text("Don't Have An Account ? Resister" , textAlign: TextAlign.center,)
           InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed("login") ; 
+              Navigator.of(context).pushReplacementNamed("login") ; 
             },
             child: const Center(
               child: Text.rich(TextSpan(children: [

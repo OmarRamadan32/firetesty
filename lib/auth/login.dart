@@ -46,7 +46,7 @@ class _LoginState extends State<Login> {
               ),
               Container(height: 10),
               CustomTextForm(
-                  hinttext: "ُEnter Your Password", mycontroller: email),
+                  hinttext: "ُEnter Your Password", mycontroller: password),
               Container(
                 margin: const EdgeInsets.only(top: 10, bottom: 20),
                 alignment: Alignment.topRight,
@@ -83,7 +83,7 @@ class _LoginState extends State<Login> {
           // Text("Don't Have An Account ? Resister" , textAlign: TextAlign.center,)
           InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed("signup") ; 
+              Navigator.of(context).pushReplacementNamed("signup") ; 
             },
             child: const Center(
               child: Text.rich(TextSpan(children: [
