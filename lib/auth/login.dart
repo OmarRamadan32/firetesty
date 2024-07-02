@@ -3,6 +3,7 @@ import 'package:firetest/components/custombuttonauth.dart';
 import 'package:firetest/components/customlogoauth.dart';
 import 'package:firetest/components/textformfield.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -17,27 +18,55 @@ class _LoginState extends State<Login> {
 // ---------------------------------------to be an image
   SignIn() async {
     try {
-  final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-    email: email.text,
-    password: password.text
-  );
-  // Code if the Signin is successful
-  Navigator.of(context).pushReplacementNamed("homepage");
-
-}
-// checking if there any errors 
- on FirebaseAuthException catch (e) {
-  // if the user not found
-  if (e.code == 'user-not-found') {
-    print('No user found for that email.');
-    // if the password is wrong
-  } else if (e.code == 'wrong-password') {
-    print('Wrong password provided for that user.');
-  }
-}
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email.text, password: password.text);
+      // Code if the Signin is successful
+      if (FirebaseAuth.instance.currentUser!.emailVerified == true) {
+        Navigator.of(context).pushReplacementNamed("homepage");
+      } else {
+        print("Email Not Verified");
+      }
+    }
+// checking if there any errors
+    on FirebaseAuthException catch (e) {
+      // if the user not found
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+        // if the password is wrong
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    }
   }
 // ---------------------------------------to be an image
+// Sign in Method
+Future<void> signInWithGoogle() async {
+  // Trigger the authentication flow
+  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  // عشان لو طلعت من جوجل ومسجلتش ميرجعش ايرور
+  if (googleUser == null) {
+    return;
+  }
 
+  // Obtain the auth details from the request
+  final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+  // Create a new credential
+  final credential = GoogleAuthProvider.credential(
+    accessToken: googleAuth?.accessToken,
+    idToken: googleAuth?.idToken,
+  );
+
+  // Once signed in, return the UserCredential
+  
+   await FirebaseAuth.instance.signInWithCredential(credential);
+  Navigator.of(context).pushReplacementNamed("homepage");
+}
+// sign out method
+SignOutWithGoogle(){
+  FirebaseAuth.instance.signOut();
+  GoogleSignIn().disconnect();
+}
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +113,11 @@ class _LoginState extends State<Login> {
               ),
             ],
           ),
-          CustomButtonAuth(title: "login", onPressed: () {}),
+          CustomButtonAuth(
+              title: "login",
+              onPressed: () {
+                SignIn();
+              }),
           Container(height: 20),
 
           MaterialButton(
@@ -93,7 +126,9 @@ class _LoginState extends State<Login> {
                   borderRadius: BorderRadius.circular(20)),
               color: Colors.red[700],
               textColor: Colors.white,
-              onPressed: () {},
+              onPressed: () {
+                signInWithGoogle();
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -108,7 +143,7 @@ class _LoginState extends State<Login> {
           // Text("Don't Have An Account ? Resister" , textAlign: TextAlign.center,)
           InkWell(
             onTap: () {
-              Navigator.of(context).pushReplacementNamed("signup") ; 
+              Navigator.of(context).pushReplacementNamed("signup");
             },
             child: const Center(
               child: Text.rich(TextSpan(children: [
@@ -127,3 +162,22 @@ class _LoginState extends State<Login> {
     );
   }
 }
+
+/*
+Future<UserCredential> signInWithGoogle() async {
+  // Trigger the authentication flow
+  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+  // Obtain the auth details from the request
+  final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+  // Create a new credential
+  final credential = GoogleAuthProvider.credential(
+    accessToken: googleAuth?.accessToken,
+    idToken: googleAuth?.idToken,
+  );
+
+  // Once signed in, return the UserCredential
+  return await FirebaseAuth.instance.signInWithCredential(credential);
+}
+*/

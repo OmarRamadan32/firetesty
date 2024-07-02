@@ -26,7 +26,8 @@ class _SignUpState extends State<SignUp> {
     email: email.text,
     password: password.text,
   );
-  Navigator.of(context).pushReplacementNamed("homepage");
+  FirebaseAuth.instance.currentUser!.sendEmailVerification();
+  Navigator.of(context).pushReplacementNamed("login");
   // Code if the Signin is successful
   
   
