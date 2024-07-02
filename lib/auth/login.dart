@@ -67,6 +67,11 @@ SignOutWithGoogle(){
   FirebaseAuth.instance.signOut();
   GoogleSignIn().disconnect();
 }
+// Reset Password
+ResetPassword()async {
+                                                  // The email
+  FirebaseAuth.instance.sendPasswordResetEmail(email: email.text);
+}
 
   @override
   Widget build(BuildContext context) {
@@ -101,13 +106,17 @@ SignOutWithGoogle(){
               Container(height: 10),
               CustomTextForm(
                   hinttext: "ُEnter Your Password", mycontroller: password),
-              Container(
-                margin: const EdgeInsets.only(top: 10, bottom: 20),
-                alignment: Alignment.topRight,
-                child: const Text(
-                  "Forgot Password ?",
-                  style: TextStyle(
-                    fontSize: 14,
+              // Reset Password Button
+              InkWell(
+                onTap: (){},
+                child: Container(
+                  margin: const EdgeInsets.only(top: 10, bottom: 20),
+                  alignment: Alignment.topRight,
+                  child: const Text(
+                    "Forgot Password ?",
+                    style: TextStyle(
+                      fontSize: 14,
+                    ),
                   ),
                 ),
               ),
